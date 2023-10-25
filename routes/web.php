@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RestaurantController;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Restaurant;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -20,7 +24,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
+    $restaurants = Restaurant::all();
+    $products = Product::all();
+    $categories = Category::all();
+    return view('dashboard.dashboard', ['restaurants' => $restaurants, 'products' => $products, 'categories'=> $categories]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard/qr', function () {
@@ -42,4 +49,6 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
+Route::resource('restaurants', RestaurantController::class);
+
 require __DIR__.'/auth.php';

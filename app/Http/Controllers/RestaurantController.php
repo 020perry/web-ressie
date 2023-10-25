@@ -1,64 +1,80 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $restaurants = Restaurant::all();
+        return view('restaurants.index', compact('restaurants'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('restaurants.create');
     }
 
+
+
     /**
-     * Store a newly created resource in storage.
+     * Sla een nieuw aangemaakt restaurant op in de database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        // Valideer de binnenkomende aanvraaggegevens.
+        // De velden 'name', 'description', en 'address' zijn verplicht.
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+        ]);
+
+        // Maak een nieuw Restaurant object aan met de gegevens uit de aanvraag.
+        $restaurant = new Restaurant($request->all());
+
+        // Zet de owner_id van het restaurant op de ID van de momenteel ingelogde gebruiker.
+        $restaurant->owner_id = Auth::id();
+
+        // Sla het restaurant object op in de database.
+        $restaurant->save();
+
+        // Stuur de gebruiker terug naar de overzichtspagina van restaurants
+        // met een succesbericht.
+        return redirect()->route('restaurants.index')->with('success', 'Restaurant succesvol aangemaakt.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Restaurant $restaurant)
     {
-        //
+        return view('restaurants.show', compact('restaurant'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Restaurant $restaurant)
     {
-        //
+        return view('restaurants.edit', compact('restaurant'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Restaurant $restaurant)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+        ]);
+
+        $restaurant->update($request->all());
+        return redirect()->route('restaurants.index')->with('success', 'Restaurant updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Restaurant $restaurant)
     {
-        //
+        $restaurant->delete();
+        return redirect()->route('restaurants.index')->with('success', 'Restaurant deleted successfully.');
     }
 }

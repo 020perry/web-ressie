@@ -15,7 +15,8 @@ class Product extends Model
         'description',
         'price',
         'image',
-        'category_id'
+        'category_id',
+        'status'
     ];
 
     protected $hidden = [
@@ -32,4 +33,8 @@ class Product extends Model
     public function restaurant() {
         return $this->category->restaurant;
     }
+
+    const STATUS_AVAILABLE = 'available';
+    const STATUS_OUT_OF_ORDER = 'out_of_order';
+
 }

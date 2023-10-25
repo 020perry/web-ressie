@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2); // Assuming price has 2 decimal places
             $table->string('image')->nullable(); // If you want to store image paths for products
+            $table->enum('status', ['available', 'out_of_order'])->default('available');
             $table->timestamps();
 
             // Foreign Key Constraints

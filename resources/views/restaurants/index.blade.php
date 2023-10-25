@@ -5,51 +5,37 @@
         <main>
             <div class="pt-6 px-4">
                 <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4  my-4">
-                    <!-- Products Section -->
+                    <!-- Restaurants Section -->
                     <div class="overflow-x-auto max-h-[600px] bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold leading-none text-gray-900">Products</h3>
-                            <a href="{{ route('products.create') }}" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
-                                Add New Product
+                            <h3 class="text-xl font-bold leading-none text-gray-900">Restaurants</h3>
+                            <a href="{{ route('restaurants.create') }}" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
+                                Add New Restaurant
                             </a>
                         </div>
 
-                        <!-- Products Table -->
+                        <!-- Restaurants Table -->
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <tr>
-                                <th class="py-2 px-6 text-left">Image</th>
-                                <th class="py-2 px-6 text-left">Product Name</th>
-                                <th class="py-2 px-6 text-left">Category</th>
+                                <th class="py-2 px-6 text-left">Restaurant Name</th>
                                 <th class="py-2 px-6 text-center">Actions</th>
                             </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light">
-                            @foreach($products as $product)
+                            @foreach($restaurants as $restaurant)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        @if($product->image)
-                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded-lg">
-                                        @else
-                                            <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-                                                <span class="text-gray-500">No Image</span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <span class="font-medium">{{ $product->name }}</span>
+                                            <span class="font-medium">{{ $restaurant->name }}</span>
                                         </div>
-                                    </td>
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        {{ $product->category->name }}
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            <a href="{{ route('products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mx-2">
+                                            <a href="{{ route('restaurants.edit', $restaurant->id) }}" class="text-blue-500 hover:text-blue-700 mx-2">
                                                 Edit
                                             </a>
-                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline-block">
+                                            <form action="{{ route('restaurants.destroy', $restaurant->id) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-500 hover:text-red-700 mx-2">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->enum('status', ['available', 'out_of_order'])->default('available');
             $table->timestamps();
 
             // Foreign Key Constraints
