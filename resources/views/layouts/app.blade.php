@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html data-theme="cyberpunk" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html data-theme="retro" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,29 +10,28 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Scripts & Styles -->
+    @vite(['resources/css/app.css', 'resources/js/app.js' ])
 </head>
-<body class="font-sans antialiased bg-base-200 text-base-content"> <!-- Modified classes for DaisyUI theming -->
-<div class="min-h-screen">
-    @include('layouts.navigation')
 
-    <!-- Page Heading -->
-    @if (isset($header))
-        <header class="bg-base-100 shadow"> <!-- Modified class for DaisyUI theming -->
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endif
 
-    <!-- Page Content -->
-    <main class="p-4"> <!-- Added some padding for better spacing -->
-        @yield('content')
-    </main>
+<!-- This is an example component -->
+<div>
+    <!-- Navigation -->
+    @auth
+        @include('layouts.navigation')
+
+        <div class="flex overflow-hidden bg-white pt-16">
+            @include('layouts.sidebar')
+            @endauth
+            @yield('content')
+
+        </div>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
 </div>
-</body>
+
 
 </html>
