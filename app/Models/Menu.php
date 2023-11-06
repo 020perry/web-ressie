@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Menu extends Model
 {
     use HasFactory;
 
@@ -15,7 +16,6 @@ class Restaurant extends Model
         'owner_id'
     ];
 
-    // Relations
     public function owner() {
         return $this->belongsTo(User::class, 'owner_id');
     }
