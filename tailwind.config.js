@@ -38,7 +38,7 @@ export default {
     },
     daisyui: {
         styled: true,
-        themes: ["light", "dark", "cyberpunk", "retro",],
+        themes: ["light","dracula", "dark", "cyberpunk", "retro",],
         base: true,
         utils: true,
         logs: true,

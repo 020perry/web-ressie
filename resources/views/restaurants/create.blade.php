@@ -5,7 +5,7 @@
         <main>
             <div class="pt-6 px-4">
                 <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
-                    <!-- Add New Restaurant Section -->
+                    <!-- Add New Menu Section -->
                     <div class="overflow-x-auto max-h-[600px] bg-white shadow sm:rounded-lg mb-4 p-4 sm:p-6 h-full">
                         <h2 class="text-2xl font-bold mb-6">Add New Restaurant</h2>
 

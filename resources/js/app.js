@@ -96,3 +96,57 @@ function loadStylesheet(FILE_URL) {
 
     document.head.appendChild(dynamicStylesheet);
 }
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('dashboardData', () => ({
+        products: [],
+        isImageEnlarged: false,
+        enlargedImage: '',
+        menus: [],
+        // ... existing properties ...
+
+        init() {
+            this.fetchProducts();
+            this.fetchMenus();
+            // ... any additional fetch calls ...
+        },
+
+        fetchProducts() {
+            fetch('/products') // Adjust the URL if necessary to match your route definition
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.products = data;
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        },
+
+        fetchMenus() {
+            fetch('/menus')
+                .then(response => response.json())
+                .then(data => this.menus = data)
+                .catch(error => console.error('Error fetching menus:', error));
+        },
+
+        // ... existing methods for products ...
+
+        editMenu(menuId) {
+            // Logic to edit menu
+        },
+
+        deleteMenu(menuId) {
+            // Logic to delete menu
+        },
+        enlargeImage(imageUrl) {
+            this.enlargedImage = imageUrl;
+            this.isImageEnlarged = true;
+        },
+
+    }));
+});

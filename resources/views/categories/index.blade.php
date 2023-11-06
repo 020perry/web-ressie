@@ -32,7 +32,7 @@
                                         </div>
                                     </td>
                                     <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        {{ $category->restaurant ? $category->restaurant->name : 'No Associated Restaurant' }}
+                                        {{ $category->restaurant ? $category->restaurant->name : 'No Associated Menu' }}
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">

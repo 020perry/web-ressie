@@ -1,29 +1,36 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Restaurant;
+use App\Models\Menu; // Gewijzigd naar Menu-model
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('restaurant')->get();
+        $categories = Category::with('menu')->get(); // Gewijzigd naar 'menu'
         return view('categories.index', compact('categories'));
+    }
+
+    public function fetchCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
     public function create()
     {
-        $restaurants = Restaurant::all();
-        return view('categories.create', compact('restaurants'));
+        $menus = Menu::all(); // Gewijzigd naar 'Menu'
+        return view('categories.create', compact('menus')); // Gewijzigd naar 'menus'
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'restaurant_id' => 'required|exists:restaurants,id'
+            'menu_id' => 'required|exists:menus,id' // Gewijzigd naar 'menu_id'
         ]);
 
         Category::create($request->all());
@@ -37,15 +44,15 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $restaurants = Restaurant::all();
-        return view('categories.edit', compact('category', 'restaurants'));
+        $menus = Menu::all(); // Gewijzigd naar 'Menu'
+        return view('categories.edit', compact('category', 'menus')); // Gewijzigd naar 'menus'
     }
 
     public function update(Request $request, Category $category)
     {
         $request->validate([
             'name' => 'required',
-            'restaurant_id' => 'required|exists:restaurants,id'
+            'menu_id' => 'required|exists:menus,id' // Gewijzigd naar 'menu_id'
         ]);
 
         $category->update($request->all());
