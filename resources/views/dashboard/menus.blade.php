@@ -1,6 +1,12 @@
 
-<div x-data="dashboardData()">
-    <table class="table w-full">
+<div class="mb-8"  x-data="dashboardData()">
+    <div class="card lg:card-side bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Menus</h2>
+            <div class="overflow-x-auto">
+
+
+        <table class="table w-full">
         <thead>
         <tr>
             <th>Name</th>
@@ -20,10 +26,10 @@
 
                 <!-- Editable state -->
                 <td x-show="menu.editing">
-                    <input type="text" class="form-input" x-model="menu.name">
+                    <input class="input input-bordered" type="text" x-model="menu.name">
                 </td>
                 <td x-show="menu.editing">
-                    <input type="text" class="form-input" x-model="menu.description">
+                    <input class="input input-bordered" type="text"x-model="menu.description">
                 </td>
                 <td x-show="menu.editing">
                     <button class="btn btn-success" x-on:click="saveMenu(index, menu.id)">Save</button>
