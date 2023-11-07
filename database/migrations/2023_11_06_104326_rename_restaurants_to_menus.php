@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::rename('restaurants', 'menus');
+        Schema::rename('menus', 'menus');
     }
 
     public function down()
     {
-        Schema::rename('menus', 'restaurants');
+        Schema::rename('menus', 'menus');
     }
 
 };

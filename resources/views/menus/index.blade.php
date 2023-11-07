@@ -9,7 +9,7 @@
                     <div class="overflow-x-auto max-h-[600px] bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-bold leading-none text-gray-900">Restaurants</h3>
-                            <a href="{{ route('restaurants.create') }}" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
+                            <a href="{{ route('menus.create') }}" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
                                 Add New Restaurant
                             </a>
                         </div>
@@ -32,10 +32,10 @@
                                     </td>
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            <a href="{{ route('restaurants.edit', $restaurant->id) }}" class="text-blue-500 hover:text-blue-700 mx-2">
+                                            <a href="{{ route('menus.edit', $restaurant->id) }}" class="text-blue-500 hover:text-blue-700 mx-2">
                                                 Edit
                                             </a>
-                                            <form action="{{ route('restaurants.destroy', $restaurant->id) }}" method="POST" class="inline-block">
+                                            <form action="{{ route('menus.destroy', $restaurant->id) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-500 hover:text-red-700 mx-2">

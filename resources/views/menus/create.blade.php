@@ -9,7 +9,7 @@
                     <div class="overflow-x-auto max-h-[600px] bg-white shadow sm:rounded-lg mb-4 p-4 sm:p-6 h-full">
                         <h2 class="text-2xl font-bold mb-6">Add New Restaurant</h2>
 
-                        <form action="{{ route('restaurants.store') }}" method="POST">
+                        <form action="{{ route('menus.store') }}" method="POST">
                             @csrf
 
                             <div class="mb-4">

@@ -29,6 +29,7 @@
                 <td x-show="!menu.editing" x-text="menu.description"></td>
                 <td x-show="!menu.editing">
                     <button class="btn btn-outline btn-info" x-on:click="editMenu(menu.id)">Edit</button>
+                    <button class="btn btn-outline btn-error" x-on:click="deleteMenu(menu.id, index)">Delete</button>
                 </td>
 
                 <!-- Editable state -->

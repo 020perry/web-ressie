@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\NoCacheMiddleware;
 use App\Http\Controllers\{
     ProductController, MenuController, ProfileController, CategoryController
 };
@@ -17,9 +18,9 @@ use App\Models\{Category, Product, Menu};
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->middleware('guest');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'nocache'])->group(function () {
     Route::view('/dashboard', 'dashboard.dashboard', [
         'menus' => Menu::all(),
         'products' => Product::all(),
@@ -35,39 +36,44 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
 
-    // Resourceful routes for products, categories, and menus
-    Route::resources([
-        'products' => ProductController::class,
-        'categories' => CategoryController::class,
-    ]);
+    // Product Routes
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/products', 'index')->name('products.index');
+        Route::get('/products/create', 'create')->name('products.create');
+        Route::post('/products', 'store')->name('products.store');
+        Route::get('/products/{product}', 'show')->name('products.show');
+        Route::get('/products/{product}/edit', 'edit')->name('products.edit');
+        Route::put('/products/{product}', 'update')->name('products.update');
+        Route::delete('/products/{product}', 'destroy')->name('products.destroy');
+    });
 
-// Show a list of menus
-    Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+// Category Routes
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/categories', 'index')->name('categories.index');
+        Route::get('/categories/create', 'create')->name('categories.create');
+        Route::post('/categories', 'store')->name('categories.store');
+        Route::get('/categories/{category}', 'show')->name('categories.show');
+        Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
+        Route::put('/categories/{category}', 'update')->name('categories.update');
+        Route::delete('/categories/{category}', 'destroy')->name('categories.destroy');
+    });
 
-// Show the form to create a new menu
-    Route::get('/menus/create', [MenuController::class, 'create'])->name('menus.create');
-
-// Store a new menu
-    Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
-
-// Show the form to edit an existing menu
-    Route::get('/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
-
-// Update an existing menu
-    Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
-
-// Delete an existing menu
-    Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
+// Menu Routes
+    Route::controller(MenuController::class)->group(function () {
+        Route::get('/menus', 'index')->name('menus.index');
+        Route::get('/menus/create', 'create')->name('menus.create');
+        Route::post('/menus', 'store')->name('menus.store');
+        Route::get('/menus/{menu}', 'show')->name('menus.show');
+        Route::get('/menus/{menu}/edit', 'edit')->name('menus.edit');
+        Route::put('/menus/{menu}', 'update')->name('menus.update');
+        Route::delete('/menus/{menu}', 'destroy')->name('menus.destroy');
+    });
 
     // API-like routes for fetching data
-    Route::get('/products', [App\Http\Controllers\ProductController::class, 'fetchProducts']);
-    Route::get('/menus', [App\Http\Controllers\MenuController::class, 'fetchMenus']);
-    Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'fetchCategories']);
+    Route::get('/products/fetch', [App\Http\Controllers\ProductController::class, 'fetchProducts']);
+    Route::get('/menus/fetch', [App\Http\Controllers\MenuController::class, 'fetchMenus']);
+    Route::get('/categories/fetch', [App\Http\Controllers\CategoryController::class, 'fetchCategories']);
 });
-
-// Separate views that do not require authentication
-Route::view('/dash', 'dashboard');
-Route::view('/test', 'test');
 
 // Auth routes
 require __DIR__.'/auth.php';

@@ -67,7 +67,7 @@ function dashboardData() {
 
         fetchMenus() {
             // Your existing fetchMenus method, but also add an editing flag to each menu
-            fetch('/menus')
+            fetch('/menus/fetch')
                 .then(response => response.json())
                 .then(data => {
                     this.menus = data.map(menu => ({ ...menu, editing: false }));
@@ -88,7 +88,7 @@ function dashboardData() {
         },
         saveMenu(index, menuId) {
             let menu = this.menus[index];
-            fetch('/menus/' + menuId, { // Make sure this is the correct endpoint
+            fetch('/menus/fetch' + menuId, { // Make sure this is the correct endpoint
                 method: 'PUT', // or 'PATCH' depending on your API design
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,6 +119,35 @@ function dashboardData() {
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        },
+
+        deleteMenu(menuId, index) {
+            if (confirm('Are you sure you want to delete this menu?')) {
+                fetch('/menus/fetch' + menuId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) throw response;
+                        return response.json();
+                    })
+                    .then(() => {
+                        // Remove the menu item from the menus array
+                        this.menus.splice(index, 1);
+                        this.showSuccessMessage = true;
+                        this.successMessage = 'Menu deleted successfully.';
+                        // Hide the success message after some time
+                        setTimeout(() => {
+                            this.showSuccessMessage = false;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
         },
 
         cancelEdit(index) {

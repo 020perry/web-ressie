@@ -10,7 +10,7 @@
                     <div class="overflow-x-auto max-h-[600px] bg-white shadow sm:rounded-lg mb-4 p-4 sm:p-6 h-full">
                         <h2 class="text-2xl font-bold mb-6">Edit Restaurant</h2>
 
-                        <form action="{{ route('restaurants.update', $restaurant->id) }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <form action="{{ route('menus.update', $restaurant->id) }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             @csrf
                             @method('PUT')
 
