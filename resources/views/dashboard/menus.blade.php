@@ -1,6 +1,19 @@
 
-<div x-data="dashboardData()">
-    <table class="table w-full">
+<div class="mb-8"  x-data="dashboardData()">
+    <div class="card lg:card-side bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Menus</h2>
+            <div class="overflow-x-auto">
+
+
+                <div x-cloak x-show.transition="showSuccessMessage" class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span x-text="successMessage"></span>
+                </div>
+
+        <table class="table w-full">
         <thead>
         <tr>
             <th>Name</th>
@@ -20,10 +33,10 @@
 
                 <!-- Editable state -->
                 <td x-show="menu.editing">
-                    <input type="text" class="form-input" x-model="menu.name">
+                    <input class="input input-bordered" type="text" x-model="menu.name">
                 </td>
                 <td x-show="menu.editing">
-                    <input type="text" class="form-input" x-model="menu.description">
+                    <input class="input input-bordered" type="text"x-model="menu.description">
                 </td>
                 <td x-show="menu.editing">
                     <button class="btn btn-success" x-on:click="saveMenu(index, menu.id)">Save</button>

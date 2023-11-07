@@ -4,35 +4,32 @@
 
     <!-- Main Content -->
     <div class="flex-1 overflow-y-auto p-4" x-data="dashboardData">
-        <!-- Secondary Navigation -->
-        <div class="bg-gray-100 p-4 rounded-md mb-4">
-            <nav class="flex space-x-4">
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md"
-                        :class="{ 'bg-white shadow': activeTab === 'products' }"
-                        @click="showTab('products')">Products</button>
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md"
-                        :class="{ 'bg-white shadow': activeTab === 'menus' }"
-                        @click="showTab('menus')">Menus</button>
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md"
-                        :class="{ 'bg-white shadow': activeTab === 'categories' }"
-                        @click="showTab('categories')">Categories</button>
-            </nav>
-        </div>
+        <div>
+            <div class="tabs tabs-boxed flex justify-center items-center">
+                <span class="mr-4 font-medium">Click to where you want to go:</span>
+                <a class="tab" :class="{ 'tab-active': activeTab === 'products' }" @click.prevent="showTab('products')">Products</a>
+                <a class="tab" :class="{ 'tab-active': activeTab === 'menus' }" @click.prevent="showTab('menus')">Menus</a>
+                <a class="tab" :class="{ 'tab-active': activeTab === 'categories' }" @click.prevent="showTab('categories')">Categories</a>
+            </div>
+
+
+
+            <!-- Secondary Navigation -->
 
         <!-- Dynamic Content -->
         <div x-show="activeTab === 'products'">
             @include('dashboard.products')
         </div>
 
-        <div x-show="activeTab === 'menus'">
+        <div x-cloak x-show="activeTab === 'menus'">
             @include('dashboard.menus')
         </div>
 
-        <div x-show="activeTab === 'categories'">
+        <div x-cloak x-show="activeTab === 'categories'">
             @include('dashboard.categories')
         </div>
 
-
+        </div>
     </div>
 
 
@@ -51,6 +48,8 @@ function dashboardData() {
         product: {},
         statuses: [],
         isEditing: false,
+        showSuccessMessage: false,
+        successMessage: '',
 
         init() {
             this.fetchProducts();
@@ -109,37 +108,18 @@ function dashboardData() {
                     this.menus[index].editing = false;
                     Object.assign(this.menus[index], data);
                 })
+                .then(data => {
+                this.showSuccessMessage = true;
+                this.successMessage = 'Your changes have been saved successfully!';
+                // Hide the success message after some time
+                setTimeout(() => {
+                    this.showSuccessMessage = false;
+                }, 3000);
+            })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         },
-
-        // saveMenu(index, menuId) {
-        //     let menu = this.menus[index];
-        //     fetch('/menu/' + menuId, {
-        //         method: 'POST', // Change to PUT or PATCH as per your API requirements
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Ensure CSRF token is included
-        //         },
-        //         body: JSON.stringify({
-        //             name: menu.name,
-        //             description: menu.description
-        //             // Include other fields that need to be updated
-        //         })
-        //     })
-        //     .then(response => {
-        //         if (!response.ok) throw response;
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         this.menus[index].editing = false;
-        //         Object.assign(this.menus[index], data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-        // },
 
         cancelEdit(index) {
             this.menus[index].editing = false;

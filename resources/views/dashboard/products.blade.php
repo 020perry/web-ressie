@@ -82,7 +82,7 @@
         </div>
 
         <!-- Modal for Enlarged Image -->
-        <div x-show="isImageEnlarged" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" x-on:click.self="isImageEnlarged = false">
+        <div x-cloak x-show="isImageEnlarged" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" x-on:click.self="isImageEnlarged = false">
             <div class="bg-white p-2 rounded">
                 <div class="flex justify-end">
                     <button class="text-black" x-on:click="isImageEnlarged = false">&times;</button>
