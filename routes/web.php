@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified', 'nocache'])->group(function () {
 
     // Product Routes
     Route::controller(ProductController::class)->group(function () {
-        Route::get('/products', 'index')->name('products.index');
+        Route::get('/product', 'index')->name('products.index');
         Route::get('/products/create', 'create')->name('products.create');
         Route::post('/products', 'store')->name('products.store');
         Route::get('/products/{product}', 'show')->name('products.show');
@@ -49,7 +49,7 @@ Route::middleware(['auth', 'verified', 'nocache'])->group(function () {
 
 // Category Routes
     Route::controller(CategoryController::class)->group(function () {
-        Route::get('/categories', 'index')->name('categories.index');
+        Route::get('/category', 'index')->name('categories.index');
         Route::get('/categories/create', 'create')->name('categories.create');
         Route::post('/categories', 'store')->name('categories.store');
         Route::get('/categories/{category}', 'show')->name('categories.show');
@@ -60,7 +60,7 @@ Route::middleware(['auth', 'verified', 'nocache'])->group(function () {
 
 // Menu Routes
     Route::controller(MenuController::class)->group(function () {
-        Route::get('/menus', 'index')->name('menus.index');
+        Route::get('/menu', 'index')->name('menus.index');
         Route::get('/menus/create', 'create')->name('menus.create');
         Route::post('/menus', 'store')->name('menus.store');
         Route::get('/menus/{menu}', 'show')->name('menus.show');
@@ -70,9 +70,9 @@ Route::middleware(['auth', 'verified', 'nocache'])->group(function () {
     });
 
     // API-like routes for fetching data
-    Route::get('/products/fetch', [App\Http\Controllers\ProductController::class, 'fetchProducts']);
-    Route::get('/menus/fetch', [App\Http\Controllers\MenuController::class, 'fetchMenus']);
-    Route::get('/categories/fetch', [App\Http\Controllers\CategoryController::class, 'fetchCategories']);
+    Route::get('/products', [App\Http\Controllers\ProductController::class, 'fetchProducts']);
+    Route::get('/menus', [App\Http\Controllers\MenuController::class, 'fetchMenus']);
+    Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'fetchCategories']);
 });
 
 // Auth routes
