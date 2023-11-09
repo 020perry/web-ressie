@@ -23,6 +23,6 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    const STATUS_AVAILABLE = 'available';
-    const STATUS_OUT_OF_ORDER = 'out_of_order';
+    const STATUS_AVAILABLE = 'AVAILABLE';
+    const STATUS_OUT_OF_ORDER = 'OUT_OF_ORDER';
 }

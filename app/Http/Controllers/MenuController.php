@@ -72,26 +72,11 @@ class MenuController extends Controller
         return response()->json($menu);
     }
 
-//    public function update(Request $request, Menu $menu)
-//    {
-//        $request->validate([
-//            'name' => 'required',
-//            'description' => 'required',
-//            'address' => 'required',
-//        ]);
-//
-//        $menu->update($request->all());
-//        return redirect()->route('menus.index')->with('success', 'Menu updated successfully.');
-//    }
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
         $menu->delete();
         return response()->json(['message' => 'Menu deleted successfully.']);
     }
-//    public function destroy(Menu $menu)
-//    {
-//        $menu->delete();
-//        return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
-//    }
+
 }

@@ -50,13 +50,31 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required',
-            'menu_id' => 'required|exists:menus,id' // Gewijzigd naar 'menu_id'
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255', // Added string and max validation for the name
+//            'menu_id' => 'required|exists:menus,id', // Ensure the menu_id exists in the menus table
         ]);
 
-        $category->update($request->all());
-        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+        try {
+            // Attempt to update the category with the validated data
+            $category->update($validatedData);
+
+            // Return a JSON response indicating success
+            return response()->json([
+                'success' => true,
+                'message' => 'Category updated successfully.',
+                'category' => $category
+            ]);
+
+        } catch (\Exception $e) {
+            // If there's an exception, return a JSON response indicating failure
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update category.',
+                'error' => $e->getMessage()
+            ], 500); // Use a 500 status code for server errors
+        }
     }
 
     public function destroy(Category $category)
