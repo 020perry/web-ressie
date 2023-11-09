@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -31,10 +32,6 @@ class ProductController extends Controller
         });
         return response()->json($products);
     }
-
-
-
-
 
 
     public function create()
@@ -73,19 +70,10 @@ class ProductController extends Controller
     }
 
 
-
-
     public function show(Product $product)
     {
         return view('products.show', compact('product'));
     }
-
-//    public function edit(Product $product)
-//    {
-//        $statuses = [self::STATUS_AVAILABLE, self::STATUS_OUT_OF_ORDER];
-//        $categories = Category::all();
-//        return view('products.edit', compact('product', 'statuses', 'categories'));
-//    }
 
     public function edit(Product $product)
     {
@@ -104,74 +92,8 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'categories'));
     }
 
-//    public function update(Request $request, Product $product)
-//    {
-//        $request->validate([
-//            'name' => 'required',
-//            'description' => 'nullable',
-//            'price' => 'required|numeric',
-//            'status' => 'required|in:' . implode(',', [self::STATUS_AVAILABLE, self::STATUS_OUT_OF_ORDER]),
-//            'category_id' => 'required|exists:categories,id',
-//            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-//        ]);
-//
-//        $updateData = $request->all();
-//
-//        if ($request->hasFile('image')) {
-//            // Delete the old image from storage if it exists and is not a placeholder
-//            if ($product->image && !Str::contains($product->image, 'placeholder')) {
-//                Storage::delete($product->image);
-//            }
-//
-//            // Store the new image and update the image path
-//            $updateData['image'] = $request->file('image')->store('images', 'public');
-//        }
-//
-//        $product->update($updateData);
-//
-//        return redirect('/dashboard')->with('success', 'Product updated successfully.');
-//    }
-
-//    public function update(Request $request, Product $product)
-//    {
-//        $request->validate([
-//            'name' => 'required',
-//            'description' => 'nullable',
-//            'price' => 'required|numeric',
-//            'status' => 'required|in:' . implode(',', [self::STATUS_AVAILABLE, self::STATUS_OUT_OF_ORDER]),
-//            'category_id' => 'required|exists:categories,id',
-//            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-//        ]);
-//
-//        $updateData = $request->only(['name', 'description', 'price', 'status', 'category_id']);
-//
-//        if ($request->hasFile('image')) {
-//            // Delete the old image from storage if it exists and is not a placeholder
-//            if ($product->image && !Str::contains($product->image, 'placeholder')) {
-//                Storage::delete('public/' . $product->image);
-//            }
-//
-//            // Store the new image and update the image path
-//            $updateData['image'] = $request->file('image')->store('images', 'public');
-//        }
-//
-//        $product->update($updateData);
-//
-//        // If the request is an AJAX request, return JSON response
-//        if ($request->ajax()) {
-//            return response()->json([
-//                'success' => true,
-//                'imageUrl' => $updateData['image'] ? asset('storage/' . $updateData['image']) : null,
-//            ]);
-//        }
-//
-//        // If it's not an AJAX request, continue with the original behavior
-//        return redirect('/dashboard')->with('success', 'Product updated successfully.');
-//    }
-
     public function update(Request $request, Product $product)
     {
-        \Log::info('Request data:', $request->all());
 
         $request->validate([
             'name' => 'required',
