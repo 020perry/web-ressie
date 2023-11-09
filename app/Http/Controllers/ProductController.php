@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -131,18 +132,59 @@ class ProductController extends Controller
 //        return redirect('/dashboard')->with('success', 'Product updated successfully.');
 //    }
 
+//    public function update(Request $request, Product $product)
+//    {
+//        $request->validate([
+//            'name' => 'required',
+//            'description' => 'nullable',
+//            'price' => 'required|numeric',
+//            'status' => 'required|in:' . implode(',', [self::STATUS_AVAILABLE, self::STATUS_OUT_OF_ORDER]),
+//            'category_id' => 'required|exists:categories,id',
+//            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//        ]);
+//
+//        $updateData = $request->only(['name', 'description', 'price', 'status', 'category_id']);
+//
+//        if ($request->hasFile('image')) {
+//            // Delete the old image from storage if it exists and is not a placeholder
+//            if ($product->image && !Str::contains($product->image, 'placeholder')) {
+//                Storage::delete('public/' . $product->image);
+//            }
+//
+//            // Store the new image and update the image path
+//            $updateData['image'] = $request->file('image')->store('images', 'public');
+//        }
+//
+//        $product->update($updateData);
+//
+//        // If the request is an AJAX request, return JSON response
+//        if ($request->ajax()) {
+//            return response()->json([
+//                'success' => true,
+//                'imageUrl' => $updateData['image'] ? asset('storage/' . $updateData['image']) : null,
+//            ]);
+//        }
+//
+//        // If it's not an AJAX request, continue with the original behavior
+//        return redirect('/dashboard')->with('success', 'Product updated successfully.');
+//    }
+
     public function update(Request $request, Product $product)
     {
+        \Log::info('Request data:', $request->all());
+
         $request->validate([
             'name' => 'required',
             'description' => 'nullable',
             'price' => 'required|numeric',
-            'status' => 'required|in:' . implode(',', [self::STATUS_AVAILABLE, self::STATUS_OUT_OF_ORDER]),
+            'status' => 'required|in:' . implode(',', [Product::STATUS_AVAILABLE, Product::STATUS_OUT_OF_ORDER]),
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Make the image rule conditional on the image being present in the request
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $updateData = $request->only(['name', 'description', 'price', 'status', 'category_id']);
+
 
         if ($request->hasFile('image')) {
             // Delete the old image from storage if it exists and is not a placeholder
@@ -160,7 +202,8 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'imageUrl' => $updateData['image'] ? asset('storage/' . $updateData['image']) : null,
+                // Return the existing image URL if no new image was uploaded
+                'imageUrl' => $request->hasFile('image') ? asset('storage/' . $updateData['image']) : asset('storage/' . $product->image),
             ]);
         }
 

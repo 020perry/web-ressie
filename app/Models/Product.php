@@ -22,14 +22,16 @@ class Product extends Model
 //        'image', // Verberg het 'image'-veld bij conversie naar array of JSON
 //    ];
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function menu() {
+    public function menu()
+    {
         return $this->category->menu;
     }
 
-    const STATUS_AVAILABLE = 'available';
-    const STATUS_OUT_OF_ORDER = 'out_of_order';
+    const STATUS_AVAILABLE = 'AVAILABLE';
+    const STATUS_OUT_OF_ORDER = 'OUT_OF_ORDER';
 }
